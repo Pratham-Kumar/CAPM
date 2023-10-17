@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="PurchaseRequisitionHeaders" EntityType="CatalogService.PurchaseRequisitionHeaders"/>
+                <EntitySet Name="PurchaseRequisitionItems" EntityType="CatalogService.PurchaseRequisitionItems">
+                    <NavigationPropertyBinding Path="PurchaseRequisitionID" Target="PurchaseRequisitionHeaders"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="PurchaseRequisitionHeaders">
+                <Key>
+                    <PropertyRef Name="PurchaseRequisitionID"/>
+                </Key>
+                <Property Name="PurchaseRequisitionID" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="Supplier" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+                <Property Name="PurchasingOrganization" Type="Edm.String" MaxLength="4"/>
+                <Property Name="PurchasingGroup" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="10" DefaultValue="NEW"/>
+            </EntityType>
+            <EntityType Name="PurchaseRequisitionItems">
+                <Key>
+                    <PropertyRef Name="PurchaseRequisitionItemID"/>
+                </Key>
+                <Property Name="PurchaseRequisitionItemID" Type="Edm.String" MaxLength="5" Nullable="false"/>
+                <NavigationProperty Name="PurchaseRequisitionID" Type="CatalogService.PurchaseRequisitionHeaders">
+                    <ReferentialConstraint Property="PurchaseRequisitionID_PurchaseRequisitionID" ReferencedProperty="PurchaseRequisitionID"/>
+                </NavigationProperty>
+                <Property Name="PurchaseRequisitionID_PurchaseRequisitionID" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MaterialNumber" Type="Edm.String" MaxLength="18"/>
+                <Property Name="MaterialDescription" Type="Edm.String" MaxLength="40"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Scale="2" Precision="15"/>
+                <Property Name="QuantityUnit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="NetPrice" Type="Edm.Decimal" Scale="2" Precision="15"/>
+                <Property Name="CurrencyKey" Type="Edm.String" MaxLength="3"/>
+                <Property Name="TaxAmount" Type="Edm.Decimal" Scale="2" Precision="15"/>
+            </EntityType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
